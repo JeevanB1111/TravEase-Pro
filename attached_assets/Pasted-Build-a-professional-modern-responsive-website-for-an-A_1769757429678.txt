@@ -1,0 +1,81 @@
+Build a professional, modern, responsive website for an AI-powered travel platform called “TravEase AI”.
+
+The website is only a UI/UX skeleton (no real authentication or AI logic yet). Focus on clean design, layout, navigation, and realistic placeholders.
+
+TECH STACK:
+- Frontend: React + Vite
+- Styling: Tailwind CSS
+- Icons: Lucide React
+- Map placeholder section (no real API calls yet)
+
+WEBSITE THEME:
+- Professional, startup-style (like a SaaS product)
+- Clean typography, light background, subtle gradients
+- Suitable for demos, hackathons, and pitching
+
+PAGES & STRUCTURE:
+
+1. Landing Page
+   - Hero section with headline:
+     “Plan smarter. Travel better. Powered by Agentic AI.”
+   - Subtext explaining:
+     “TravEase AI is a multi-agent travel platform for travelers and travel agencies.”
+   - Call-to-action buttons:
+     - “Explore as Traveler”
+     - “Explore as Agency”
+   - Feature cards:
+     - AI Trip Planning
+     - Live Route Maps
+     - Smart Recommendations
+     - Agency Package Builder
+   - Footer with branding and links
+
+2. Role Selection Page
+   - Two large cards:
+     - Traveler Dashboard (icon + description)
+     - Agency Dashboard (icon + description)
+   - Clicking a card navigates to respective dashboard (no auth yet)
+
+3. Traveler Dashboard (UI only)
+   - Left sidebar:
+     - Chat Planner
+     - My Trips
+     - Live Map
+     - Profile
+   - Main area:
+     - Chat interface mockup (message bubbles)
+     - Right-side map placeholder panel
+   - Sample AI messages hardcoded
+
+4. Agency Dashboard (UI only)
+   - Left sidebar:
+     - AI Assistant
+     - Create Package
+     - My Packages
+     - Analytics
+   - Main area:
+     - Package cards
+     - Analytics placeholders (charts boxes, no data)
+     - AI chat mockup for agency use
+
+5. About / Vision Page
+   - Explain:
+     - Multi-role system
+     - Agentic AI concept
+     - Travelers vs Agencies
+     - Future roadmap
+
+DESIGN REQUIREMENTS:
+- Fully responsive
+- Reusable components
+- Clean folder structure
+- Dummy data & placeholders only
+- Navigation using React Router
+
+OUTPUT:
+- Working Vite project
+- All pages navigable
+- No backend
+- No APIs
+- No authentication
+- Focus ONLY on professional UI & idea representation
