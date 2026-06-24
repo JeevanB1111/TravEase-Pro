@@ -652,47 +652,49 @@ You have access to a database of 'Travel Combos' (Packages) which include flight
             // 1. Check for Greeting
             if (lowerMsg.match(/\b(hi|hello|hey|yo|greetings)\b/)) {
                 return {
-                    message: "Hello! 🌍 I'm your Travel Agent. I'm operating in 'Offline Mode' right now (API connection issue), but I can still help you find trips! Try saying 'Search for Bali' or 'Find beach trips'.",
+                    message: "Hello! 🌍 I'm your Travel Agent. I'm operating in 'Offline Mode' right now (API connection issue), but I can still help you find trips! Try saying 'I want to go to Bali' or 'Tell me about Paris Getaway'.",
                     thoughts: ["Fallback: Greeting"],
                     action: { type: 'NONE' }
                 };
             }
 
-            // 2. Search Fallback
-            if (lowerMsg.includes("search") || lowerMsg.includes("find") || lowerMsg.includes("trip") || lowerMsg.includes("combo") || lowerMsg.includes("go to")) {
-                const allCombos = await storage.getTravelCombos();
-                // Extract potential keywords (anything that is not a stop word)
-                const keywords = lowerMsg.split(' ').filter(w => w.length > 3 && !['find', 'search', 'want', 'trip', 'combos', 'package', 'about', 'going'].includes(w));
+            // 2. Dynamic Search & Fuzzy Match fallback (Always check keywords)
+            const allCombos = await storage.getTravelCombos();
+            const keywords = lowerMsg.split(/[\s,?.!]+/).filter(w => w.length > 3 && !['interested', 'package', 'packages', 'planning', 'travel', 'looking', 'please', 'would', 'like', 'about', 'recommend'].includes(w));
 
-                let bestMatch: any = null;
-                if (keywords.length > 0) {
-                    bestMatch = allCombos.find(c =>
-                        keywords.some(k => c.title.toLowerCase().includes(k) || c.category.toLowerCase().includes(k))
-                    );
-                }
+            let bestMatch: any = null;
+            if (keywords.length > 0) {
+                bestMatch = allCombos.find(c =>
+                    keywords.some(k => 
+                        c.title.toLowerCase().includes(k) || 
+                        c.category.toLowerCase().includes(k) || 
+                        c.description.toLowerCase().includes(k)
+                    )
+                );
+            }
 
-                if (!bestMatch && lowerMsg.includes("trip")) {
-                    // Pick random if just generic request
-                    bestMatch = allCombos[0];
-                }
-
-                if (bestMatch) {
-                    return {
-                        message: `I found a great trip for you: ${bestMatch.title} for ${bestMatch.basePrice}! ✈️`,
-                        thoughts: [`Fallback: Found ${bestMatch.title}`],
-                        action: { type: 'SHOW_COMBO', data: bestMatch }
-                    };
-                }
-
+            if (bestMatch) {
                 return {
-                    message: "I couldn't find a specific trip matching that in my offline database. Try a specific place like 'Paris' or 'Bali'.",
-                    thoughts: ["Fallback: No match"],
-                    action: { type: 'NONE' }
+                    message: `I'm currently running in offline mode, but I found a great matching package for you: **${bestMatch.title}** (${bestMatch.basePrice})! ✈️\n\n**Description**: ${bestMatch.description}\n**Inclusions**: ${bestMatch.inclusions}`,
+                    thoughts: [`Fallback: Matched keyword to ${bestMatch.title}`],
+                    action: { type: 'SHOW_COMBO', data: bestMatch }
                 };
             }
 
+            // 3. Fallback search-trigger queries
+            if (lowerMsg.includes("search") || lowerMsg.includes("find") || lowerMsg.includes("trip") || lowerMsg.includes("combo") || lowerMsg.includes("go to") || lowerMsg.includes("show")) {
+                if (allCombos.length > 0) {
+                    const first = allCombos[0];
+                    return {
+                        message: `I couldn't find an exact match in my offline database, but here is one of our popular packages: **${first.title}** for ${first.basePrice}. Try searching for a specific destination!`,
+                        thoughts: ["Fallback: Generic search suggestion"],
+                        action: { type: 'SHOW_COMBO', data: first }
+                    };
+                }
+            }
+
             return {
-                message: "I'm having a bit of connectivity trouble (Google API Error). Please check your API Key permissions. Try 'Search for [Destination]' to use my offline search.",
+                message: "I'm having a bit of connectivity trouble (Google API Error). Please check your API Key permissions. You can search our offline packages by typing the destination (e.g. 'Paris', 'Tanzania', 'Italy').",
                 thoughts: ["Error logic: " + (error.message || "Unknown error")],
                 action: { type: 'NONE' }
             };
