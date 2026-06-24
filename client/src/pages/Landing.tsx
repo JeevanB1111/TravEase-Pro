@@ -52,14 +52,14 @@ export default function Landing() {
             <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed">
               TravEase AI is a multi-agent travel platform connecting independent travelers and professional agencies with intelligent automation.
             </p>
-            
+
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Link href="/role-selection">
+              <Link href="/traveler/login">
                 <Button size="lg" className="h-14 px-8 text-lg rounded-full bg-primary hover:bg-primary/90 shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 hover:-translate-y-0.5 transition-all">
                   Explore as Traveler
                 </Button>
               </Link>
-              <Link href="/role-selection">
+              <Link href="/agency/login">
                 <Button size="lg" variant="outline" className="h-14 px-8 text-lg rounded-full bg-white hover:bg-secondary/50 border-2">
                   Explore as Agency
                 </Button>
@@ -106,9 +106,9 @@ export default function Landing() {
               </div>
             </div>
             {/* Unsplash image: Scenic travel landscape, mountains or beach */}
-            <img 
-              src="https://images.unsplash.com/photo-1469474932222-de90811e924d?q=80&w=3548&auto=format&fit=crop" 
-              alt="Travel Adventure" 
+            <img
+              src="https://images.unsplash.com/photo-1469474932222-de90811e924d?q=80&w=3548&auto=format&fit=crop"
+              alt="Travel Adventure"
               className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700"
             />
           </div>

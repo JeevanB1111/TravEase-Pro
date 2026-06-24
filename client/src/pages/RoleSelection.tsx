@@ -9,7 +9,7 @@ export default function RoleSelection() {
     <div className="min-h-screen pt-24 pb-12 flex flex-col items-center justify-center bg-secondary/20 relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/5 rounded-full blur-3xl -z-10"></div>
-      
+
       <div className="container mx-auto px-4 sm:px-6 max-w-5xl">
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">Choose your journey</h1>
@@ -18,7 +18,7 @@ export default function RoleSelection() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Traveler Card */}
-          <Link href="/traveler/dashboard">
+          <Link href="/traveler/login">
             <motion.div
               whileHover={{ y: -5 }}
               transition={{ type: "spring", stiffness: 300 }}
@@ -28,16 +28,16 @@ export default function RoleSelection() {
                 <div className="absolute top-0 right-0 p-3 opacity-0 group-hover:opacity-100 transition-opacity">
                   <ArrowRight className="w-6 h-6 text-primary" />
                 </div>
-                
+
                 <div className="w-16 h-16 rounded-2xl bg-blue-100 text-blue-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                   <User className="w-8 h-8" />
                 </div>
-                
+
                 <h2 className="text-2xl font-bold mb-3 group-hover:text-primary transition-colors">Traveler Dashboard</h2>
                 <p className="text-muted-foreground mb-6">
                   Personalized AI trip planning, itinerary management, and discovery for your next adventure.
                 </p>
-                
+
                 <ul className="space-y-3">
                   <li className="flex items-center gap-3 text-sm text-foreground/80">
                     <CheckCircle2 className="w-4 h-4 text-green-500" />
@@ -57,7 +57,7 @@ export default function RoleSelection() {
           </Link>
 
           {/* Agency Card */}
-          <Link href="/agency/dashboard">
+          <Link href="/agency/login">
             <motion.div
               whileHover={{ y: -5 }}
               transition={{ type: "spring", stiffness: 300 }}
@@ -67,16 +67,16 @@ export default function RoleSelection() {
                 <div className="absolute top-0 right-0 p-3 opacity-0 group-hover:opacity-100 transition-opacity">
                   <ArrowRight className="w-6 h-6 text-purple-600" />
                 </div>
-                
+
                 <div className="w-16 h-16 rounded-2xl bg-purple-100 text-purple-600 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                   <Briefcase className="w-8 h-8" />
                 </div>
-                
+
                 <h2 className="text-2xl font-bold mb-3 group-hover:text-purple-600 transition-colors">Agency Dashboard</h2>
                 <p className="text-muted-foreground mb-6">
                   Professional tools for creating packages, managing clients, and analyzing travel trends.
                 </p>
-                
+
                 <ul className="space-y-3">
                   <li className="flex items-center gap-3 text-sm text-foreground/80">
                     <CheckCircle2 className="w-4 h-4 text-purple-500" />
