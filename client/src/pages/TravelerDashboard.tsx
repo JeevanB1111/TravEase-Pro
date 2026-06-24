@@ -227,7 +227,7 @@ export default function TravelerDashboard() {
         if (data.action.type === 'SHOW_COMBO') {
           const combo = data.action.data;
           setSelectedCombo(combo);
-          setIsPackageDetailsOpen(true);
+          // Set combo in state but let the user manually click 'View Package Details' in the chat to open details modal.
         }
         else if (data.action.type === 'UPDATE_DESTINATION') {
           setSelectedDestination(data.action.data);

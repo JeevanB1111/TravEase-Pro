@@ -504,12 +504,12 @@ You have access to a database of 'Travel Combos' (Packages) which include flight
 
 **Capabilities**:
 1. **Search**: When a user asks for a trip (e.g., "beach trip", "Paris"), use 'search_combos' to find options.
-2. **Details**: If they ask about a specific one, tell them about it.
-3. **Booking**: If they want to book, encourage them to "Click the Book Now button" (or use 'trigger_booking' if you want to pop up the wizard).
+2. **Details**: If they ask about a specific package, describe it in detail (what's included, why it's great, price). Do NOT tell them to click details or force trigger booking immediately. Be descriptive, informative, and invite them to chat about it.
+3. **Booking**: If they explicitly state they want to book or are ready, explain the next steps and encourage them to click the Book button (or use 'trigger_booking').
 
 **Personality**:
-- Enthusiastic, warm, and emoji-friendly! 🌍✈️
-- Keep responses short (under 3 sentences) unless describing a trip.
+- Enthusiastic, warm, interactive, and emoji-friendly! 🌍✈️
+- Speak like a friendly human travel guide. If they select a package, give them a lovely, descriptive breakdown of what makes it special and ask questions to make it interactive.
 - If you find no results, suggest vaguely similar popular places (Bali, Paris, Tokyo).` }]
                     },
                     {
@@ -675,7 +675,7 @@ You have access to a database of 'Travel Combos' (Packages) which include flight
 
             if (bestMatch) {
                 return {
-                    message: `I'm currently running in offline mode, but I found a great matching package for you: **${bestMatch.title}** (${bestMatch.basePrice})! ✈️\n\n**Description**: ${bestMatch.description}\n**Inclusions**: ${bestMatch.inclusions}`,
+                    message: `I would love to tell you all about that! 🌍 Even though I'm operating in offline mode right now, I have the details for our popular **${bestMatch.title}** package (${bestMatch.basePrice}).\n\n**About this trip**:\n${bestMatch.description}\n\n**What's included in this package?**\n✨ ${bestMatch.inclusions}\n\nWould you like to know more about the activities, or are you ready to plan dates for this adventure? Let me know! ✈️`,
                     thoughts: [`Fallback: Matched keyword to ${bestMatch.title}`],
                     action: { type: 'SHOW_COMBO', data: bestMatch }
                 };
@@ -686,7 +686,7 @@ You have access to a database of 'Travel Combos' (Packages) which include flight
                 if (allCombos.length > 0) {
                     const first = allCombos[0];
                     return {
-                        message: `I couldn't find an exact match in my offline database, but here is one of our popular packages: **${first.title}** for ${first.basePrice}. Try searching for a specific destination!`,
+                        message: `I couldn't find an exact match in my offline database for that, but here is one of our traveler favorites: **${first.title}** (${first.basePrice}).\n\n**Special highlights**:\n${first.description}\n\nFeel free to ask me about other destinations (like Bali, Paris, or Italy) or click **View Package Details** below to see more!`,
                         thoughts: ["Fallback: Generic search suggestion"],
                         action: { type: 'SHOW_COMBO', data: first }
                     };
