@@ -107,7 +107,7 @@ export default function Landing() {
             </div>
             {/* Unsplash image: Scenic travel landscape, mountains or beach */}
             <img
-              src="https://images.unsplash.com/photo-1469474932222-de90811e924d?q=80&w=3548&auto=format&fit=crop"
+              src="/travel-adventure.png"
               alt="Travel Adventure"
               className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700"
             />
