@@ -31,7 +31,8 @@ function getGeminiModel() {
                                 title: { type: SchemaType.STRING, description: "Title of the trip, e.g. 'Bali Blast'" },
                                 price: { type: SchemaType.STRING, description: "Price including currency, e.g. '$500'" },
                                 category: { type: SchemaType.STRING, description: "Category/Tag, e.g. 'Beach', 'Adventure'" },
-                                description: { type: SchemaType.STRING, description: "Short description of the trip" }
+                                description: { type: SchemaType.STRING, description: "Short description of the trip" },
+                                inclusions: { type: SchemaType.STRING, description: "Optional list of inclusions, e.g. 'Hotel, Flights'" }
                             },
                             required: ["title", "price", "category"]
                         }
@@ -197,12 +198,17 @@ If the user's request is a greeting or general question, answer naturally withou
             let outputText = "";
 
             if (name === "create_combo") {
+                const title = args.title;
+                const category = args.category;
+                const description = args.description || AgentService.generateRealisticDescription(title, category);
+                const inclusions = args.inclusions || AgentService.getRealisticInclusions(category);
+
                 const newCombo = await storage.createTravelCombo({
-                    title: args.title,
+                    title,
                     basePrice: args.price,
-                    category: args.category,
-                    description: args.description || `Auto-generated package for ${args.category}`,
-                    inclusions: "Flights, Hotel, Transfer"
+                    category,
+                    description,
+                    inclusions
                 });
                 outputText = `Successfully created combo ID ${newCombo.id}: ${newCombo.title} ($${newCombo.basePrice})`;
                 toolResult = { result: outputText }; // Gemini expects object
@@ -392,8 +398,8 @@ If the user's request is a greeting or general question, answer naturally withou
                 title,
                 basePrice: price,
                 category,
-                description: `Auto-generated package based on request: "${command}"`,
-                inclusions: "Flights, Hotel, Tours"
+                description: AgentService.generateRealisticDescription(title, category),
+                inclusions: AgentService.getRealisticInclusions(category)
             });
 
             return {
@@ -691,5 +697,36 @@ You have access to a database of 'Travel Combos' (Packages) which include flight
                 action: { type: 'NONE' }
             };
         }
+    }
+
+    static generateRealisticDescription(title: string, category: string): string {
+        const cat = category.toLowerCase();
+        const titleClean = title.replace(/\b(trip|package|vacation|tour|getaway)\b/gi, '').trim();
+
+        if (cat.includes("beach")) {
+            return `Escape to the sun-soaked shores of ${titleClean}. Enjoy private beach access, pristine ocean waters, and ultimate relaxation.`;
+        } else if (cat.includes("adventure") || cat.includes("safari")) {
+            return `Embark on a thrilling journey through ${titleClean}. Discover breathtaking landscapes, local wildlife, and unforgettable guided tours.`;
+        } else if (cat.includes("luxury")) {
+            return `Indulge in a premium 5-star experience in ${titleClean}. Features world-class accommodation, gourmet dining, and private transport.`;
+        } else if (cat.includes("city")) {
+            return `Explore the vibrant streets and rich cultural heritage of ${titleClean}. Includes historic guided tours, local dining, and central stays.`;
+        } else if (cat.includes("romantic")) {
+            return `A perfectly curated romantic escape to ${titleClean} designed for couples, featuring candlelit dining and scenic sightseeing.`;
+        } else if (cat.includes("budget")) {
+            return `Explore the best of ${titleClean} without breaking the bank. Includes comfortable stays, must-see sights, and local travel tips.`;
+        }
+
+        return `Experience the wonderful sights of ${titleClean}. This hand-crafted ${category} package offers the perfect balance of leisure and sightseeing.`;
+    }
+
+    static getRealisticInclusions(category: string): string {
+        const cat = category.toLowerCase();
+        if (cat.includes("beach")) return "Luxury Resort, Breakfast, Airport Transfers, Beach Access";
+        if (cat.includes("adventure") || cat.includes("safari")) return "Eco-Lodge, Guided Tours, Daily Excursions, Gear Rental";
+        if (cat.includes("luxury")) return "5-Star Hotel, Flights (Business), Private Guide, Spa Credits";
+        if (cat.includes("city")) return "Boutique Hotel, Metro Pass, Historic City Tours, Museum Tickets";
+        if (cat.includes("romantic")) return "Honeymoon Suite, Candlelit Dinner, Champagne, Private Transfers";
+        return "Hotel, Flights, Guided Sightseeing";
     }
 }

@@ -94,7 +94,7 @@ export async function registerRoutes(
       // Create a mock "scanned" combo
       const newCombo = await storage.createTravelCombo({
         title: "Handwritten Safari Special",
-        description: "scanned_form_v1.jpg - 5 Day Safari Package",
+        description: "An adventurous 5-day Safari package featuring wild game drives, local guides, and comfortable rustic lodge stays.",
         category: "Adventure",
         basePrice: "$1,850",
         inclusions: "Jeep, Guide, Meals"
